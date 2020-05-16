@@ -1,0 +1,20 @@
+syntax = "proto3";
+package com.github.rohilsurana.http;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/rohilsurana/http-proxy/protos";
+
+message Request {
+  string method = 1;
+  string path = 2;
+  string http_version = 3;
+  repeated Header headers = 4;
+  bytes body = 5; 
+  google.protobuf.Timestamp event_timestamp = 6;
+}
+
+message Header {
+  bytes key = 1;
+  bytes value = 2;
+}

@@ -1,24 +1,30 @@
 package config
 
 import (
-	"github.com/ilyakaznacheev/cleanenv"
 	"log"
+
+	"github.com/ilyakaznacheev/cleanenv"
 )
 
 // Config stores configurations for the application
 type Config struct {
+	Mode   string `yaml:"mode" env:"MODE"`
 	Server struct {
 		Port int    `yaml:"port" env:"SERVER_PORT"`
 		Host string `yaml:"host" env:"SERVER_HOST"`
 	} `yaml:"server"`
+	Kafka struct {
+		Topic   string `yaml:"topic" env:"KAFKA_TOPIC"`
+		Brokers string `yaml:"brokers" env:"KAFKA_BROKER"`
+	} `yaml:"kafka"`
 }
 
-// Configs initializes configuration from a YAML file and then loads overrides from env
-func Configs(configPath string) *Config {
+// NewConfigs initializes configuration from a YAML file and then loads overrides from env
+func NewConfigs(configPath string) *Config {
 	var cfg Config
 
 	if err := cleanenv.ReadConfig(configPath, &cfg); err != nil {
-		log.Fatal(err)
+		log.Fatal("Failed to get configs: ", err)
 	}
 	return &cfg
 }

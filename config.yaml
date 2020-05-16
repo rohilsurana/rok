@@ -1,3 +1,7 @@
+mode: server
 server:
   port: 8080
   host: localhost
+kafka:
+  brokers: localhost:9092
+  topic: monitoring-events-http-log

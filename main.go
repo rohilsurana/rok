@@ -2,26 +2,50 @@ package main
 
 import (
 	"fmt"
-	"github.com/rohilsurana/http-proxy/config"
-	"github.com/valyala/fasthttp"
 	"log"
+
+	"github.com/rohilsurana/http-proxy/config"
+	"github.com/rohilsurana/http-proxy/kafka"
+	"github.com/rohilsurana/http-proxy/protos"
+	"github.com/valyala/fasthttp"
+	"google.golang.org/protobuf/proto"
 )
 
 func main() {
-	cfg := config.Configs("config.yaml")
+	cfg := config.NewConfigs("config.yaml")
+
+	if cfg.Mode == "worker" {
+		startWorker(cfg)
+	} else if cfg.Mode == "server" {
+		startServer(cfg)
+	}
+}
+
+func startWorker(cfg *config.Config) {
+
+}
+
+func startServer(cfg *config.Config) {
+	producer := kafka.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic)
 
 	handler := func(ctx *fasthttp.RequestCtx) {
-		method := string(ctx.Method())
-		path := string(ctx.Path())
-		headers := ctx.Request.Header.RawHeaders()
-		body := ctx.PostBody()
-
-		fmt.Println("----------------REQUEST START----------------")
-		fmt.Printf("%s %s HTTP/1.1\n", method, path)
-		fmt.Printf(string(headers))
-		fmt.Printf(string(body))
-		fmt.Println("-----------------REQUEST END-----------------")
-
+		// request := ctx.Request.String()
+		protoMessage := &protos.Request{
+			Method:      string(ctx.Method()),
+			Path:        string(ctx.Path()),
+			HttpVersion: "HTTP/1.1",
+			Headers:     []*protos.Header{},
+			Body:        ctx.Request.Body(),
+		}
+		message, err := proto.Marshal(protoMessage)
+		if err != nil {
+			log.Fatalln("Failed to encode address book:", err)
+		}
+		// fmt.Println(request)
+		err = producer.SendSync(message)
+		if err != nil {
+			log.Print("Failed to send message: ", err)
+		}
 		ctx.SetStatusCode(fasthttp.StatusNoContent)
 	}
 
