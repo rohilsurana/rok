@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/rohilsurana/http-proxy/config"
-	"github.com/rohilsurana/http-proxy/kafka"
-	"github.com/rohilsurana/http-proxy/protos"
+	"github.com/rohilsurana/rok/config"
+	"github.com/rohilsurana/rok/kafka"
+	"github.com/rohilsurana/rok/protos"
 	"github.com/valyala/fasthttp"
 	"google.golang.org/protobuf/proto"
 )

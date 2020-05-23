@@ -1,4 +1,4 @@
-module github.com/rohilsurana/http-proxy
+module github.com/rohilsurana/rok
 
 go 1.14
 
