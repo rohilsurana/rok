@@ -14,8 +14,10 @@ type Config struct {
 		Host string `yaml:"host" env:"SERVER_HOST"`
 	} `yaml:"server"`
 	Kafka struct {
-		Topic   string `yaml:"topic" env:"KAFKA_TOPIC"`
-		Brokers string `yaml:"brokers" env:"KAFKA_BROKER"`
+		Topic    string            `yaml:"topic" env:"KAFKA_TOPIC"`
+		Brokers  string            `yaml:"brokers" env:"KAFKA_BROKER"`
+		Producer map[string]string `yaml:"producer" env:"KAFKA_PRODUCER"`
+		Consumer map[string]string `yaml:"Consumer" env:"KAFKA_CONSUMER"`
 	} `yaml:"kafka"`
 }
 

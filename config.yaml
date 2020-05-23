@@ -5,3 +5,8 @@ server:
 kafka:
   brokers: localhost:9092
   topic: monitoring-events-http-log
+  producer:
+    request.required.acks: -1
+  consumer:
+    auto.offset.reset: latest
+    group.id: monitoring-events-http-log-consumer-0001

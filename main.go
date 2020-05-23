@@ -26,7 +26,7 @@ func startWorker(cfg *config.Config) {
 }
 
 func startServer(cfg *config.Config) {
-	producer := kafka.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic)
+	producer := kafka.NewProducer(cfg.Kafka.Brokers, cfg.Kafka.Topic, cfg.Kafka.Producer)
 
 	handler := func(ctx *fasthttp.RequestCtx) {
 		// request := ctx.Request.String()
