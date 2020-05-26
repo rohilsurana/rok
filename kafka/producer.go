@@ -30,6 +30,11 @@ func NewProducer(brokers, topic string, configs map[string]string) *Producer {
 	}
 }
 
+// Close to close the kafka producer
+func (p *Producer) Close() {
+	p.producer.Close()
+}
+
 // SendSync sends a message using the intialised producer
 func (p *Producer) SendSync(message []byte) error {
 	err := p.producer.Produce(&kafka.Message{

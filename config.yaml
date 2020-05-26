@@ -1,7 +1,10 @@
-mode: server
+mode: worker
+worker:
+  hostname: localhost
+  port: 8086
 server:
+  hostname: localhost
   port: 8080
-  host: localhost
 kafka:
   brokers: localhost:9092
   topic: monitoring-events-http-log
